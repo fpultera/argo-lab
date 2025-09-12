@@ -146,3 +146,7 @@ Solo estás diciendo que ciertos campos específicos del Service pueden diferir 
 Ahora con solo hacer un cambio en el spec del rollout.yaml cambiando al version de la imagen de nginx, y pusheando el cambio
 
 deberias poder ver el cambio en rollout y en argocd, ademas de que si hacer varios F5 en al url vas a ver la diferencia
+
+## 7. Dashboard de argo-rollout
+
+0.0.0.0:3100
