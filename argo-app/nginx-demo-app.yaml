@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/usuario/argo-lab.git
+    repoURL: https://github.com/fpultera/argo-lab.git
     targetRevision: main
     path: demo-app
   destination:
