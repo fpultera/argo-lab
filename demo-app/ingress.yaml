@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: demo
+spec:
+  ingressClassName: nginx   # 👈 en vez de la annotation
+  rules:
+  - host: nginx-demo.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-stable
+            port:
+              number: 80
