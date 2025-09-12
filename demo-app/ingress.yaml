@@ -1,18 +1,33 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: nginx-ingress
+  name: nginx
   namespace: demo
 spec:
-  ingressClassName: nginx   # 👈 en vez de la annotation
-  rules:
-  - host: nginx-demo.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nginx-stable
-            port:
-              number: 80
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    canary:
+      canaryService: nginx-canary
+      stableService: nginx-stable
+      trafficRouting:
+        nginx:
+          stableIngress: nginx-ingress   # 👈 Aquí indicás el Ingress que ya creaste
+      steps:
+      - setWeight: 20
+      - pause: { duration: 30 }   # espera 30s
+      - setWeight: 50
+      - pause: { duration: 60 }   # espera 60s
+      - setWeight: 100
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19
+        ports:
+        - containerPort: 80
