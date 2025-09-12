@@ -149,7 +149,9 @@ deberias poder ver el cambio en rollout y en argocd, ademas de que si hacer vari
 
 ## 7. Dashboard de argo-rollout
 
+```bash
 kubectl argo rollouts dashboard
+```
 
 ### Aclaraciones
 
