@@ -3,6 +3,8 @@ kind: Rollout
 metadata:
   name: nginx
   namespace: demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"   # 👈 se aplica después del Ingress
 spec:
   replicas: 5
   selector:
@@ -14,20 +16,20 @@ spec:
       stableService: nginx-stable
       trafficRouting:
         nginx:
-          stableIngress: nginx-ingress   # 👈 nombre del Ingress
+          stableIngress: nginx-ingress   # 👈 Ingress que maneja el tráfico
       steps:
-      - setWeight: 20
-      - pause: { duration: 30 }   # espera 30s
-      - setWeight: 50
-      - pause: { duration: 60 }   # espera 60s
-      - setWeight: 100
+        - setWeight: 20
+        - pause: { duration: 30 }   # espera 30s
+        - setWeight: 50
+        - pause: { duration: 60 }   # espera 60s
+        - setWeight: 100
   template:
     metadata:
       labels:
         app: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.19   # primera versión
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: nginx:1.19
+          ports:
+            - containerPort: 80

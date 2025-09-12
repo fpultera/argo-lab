@@ -5,8 +5,8 @@ metadata:
   namespace: demo
 spec:
   ports:
-  - port: 80
-    targetPort: 80
+    - port: 80
+      targetPort: 80
   selector:
     app: nginx
     rollouts-pod-template-hash: stable
@@ -18,8 +18,8 @@ metadata:
   namespace: demo
 spec:
   ports:
-  - port: 80
-    targetPort: 80
+    - port: 80
+      targetPort: 80
   selector:
     app: nginx
     rollouts-pod-template-hash: canary
