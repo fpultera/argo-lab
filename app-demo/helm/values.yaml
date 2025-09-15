@@ -34,6 +34,7 @@ ingress:
     # a través del Ingress Controller de Nginx.
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-weight: "0"
+    argocd.argoproj.io/managed-by-rollouts-ingress: "true"
 
 # Estrategia y pasos del Rollout
 rollout:
