@@ -16,12 +16,12 @@ spec:
       stableService: app-stable
       trafficRouting:
         nginx:
-          stableIngress: nginx-ingress   # 👈 Ingress que maneja el tráfico
+          stableIngress: app-ingress   # 👈 Ingress que maneja el tráfico
       steps:
         - setWeight: 20
-        - pause: { duration: 30 }   # espera 30s
+        - pause: { duration: 10 }   # espera 10s
         - setWeight: 50
-        - pause: { duration: 60 }   # espera 60s
+        - pause: { duration: 30 }   # espera 30s
         - setWeight: 100
   template:
     metadata:
