@@ -26,7 +26,7 @@ service:
 # Configuración del Ingress
 ingress:
   enabled: true
-  className: "nginx" # Asegúrate que coincida con tu Ingress Controller
+  className: nginx
   name: app-ingress
   host: app-demo.local
   annotations:
