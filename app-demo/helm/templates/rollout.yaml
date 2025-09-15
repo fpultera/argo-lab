@@ -9,7 +9,14 @@ spec:
     matchLabels:
 {{ toYaml .Values.labels | indent 6 }}
   strategy:
-    # ... (la sección de strategy no cambia)
+    canary:
+      canaryService: {{ .Values.service.canary.name }}
+      stableService: {{ .Values.service.stable.name }}
+      trafficRouting:
+        nginx:
+          stableIngress: {{ .Values.ingress.name }}
+      steps:
+{{ toYaml .Values.rollout.strategy.steps | indent 8 }}
   template:
     metadata:
       labels:
