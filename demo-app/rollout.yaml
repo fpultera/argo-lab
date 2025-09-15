@@ -33,11 +33,12 @@ spec:
           image: nginx:1.21
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: nginx-index
-              mountPath: /usr/share/nginx/html/index.html
-              subPath: index.html
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
       volumes:
-        - name: nginx-index
-          configMap:
-            name: nginx-index-html
+      - name: html-volume
+        configMap:
+          # Usa el nombre que le diste al ConfigMap en Kustomize
+          name: app-index-html
