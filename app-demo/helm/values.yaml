@@ -31,11 +31,11 @@ ingress:
   host: app-demo.local
   annotations:
     # Estas anotaciones son cruciales para que Argo Rollouts controle el tráfico
-    # a través del Ingress Controller de Nginx.
-    nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "0"
-    argocd.argoproj.io/managed-by-rollouts-ingress: "true"
-    argocd.argoproj.io/sync-wave: "0"
+    # # a través del Ingress Controller de Nginx.
+    # nginx.ingress.kubernetes.io/canary: "true"
+    # nginx.ingress.kubernetes.io/canary-weight: "0"
+    # argocd.argoproj.io/managed-by-rollouts-ingress: "true"
+    # argocd.argoproj.io/sync-wave: "0"
 
 # Estrategia y pasos del Rollout
 rollout:
