@@ -38,13 +38,7 @@ kubectl apply -f https://raw.githubusercontent.com/fpultera/argo-lab/refs/heads/
 ```bash
 kubectl get pods -n argocd
 ```
-### Exponer el server de ArgoCD (para desarrollo/local):
-
-```bash
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
-
-### Acceder en navegador: https://localhost:8080
+### Acceder en navegador: https://argocd.local
 
 ### Usuario por defecto: admin
 
