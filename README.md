@@ -61,11 +61,41 @@ kubectl create namespace argo-rollouts
 kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
 ```
 
+## Dashboard
+
+```bash
+kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/dashboard-install.yaml
+```
+
 ### Verificar pods
 
 ```bash
 kubectl get pods -n argo-rollouts
 ```
+
+### Check svc rollout
+
+```bash
+❯ k get svc -n argo-rollouts
+NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+argo-rollouts-dashboard   ClusterIP   10.104.163.216   <none>        3100/TCP   83s
+argo-rollouts-metrics     ClusterIP   10.100.67.78     <none>        8090/TCP   101s
+```
+
+### edito configmap rollout
+
+```bash
+kubectl edit configmap argocd-cm -n argocd
+```
+
+add:
+
+```bash
+data:
+  # ... otras configuraciones de Argo CD ...
+  url.rollouts_dashboard: http://argo-rollouts-dashboard.argo-rollouts.svc.cluster.local
+```
+
 
 ### Instalar CLI local
 
@@ -152,6 +182,22 @@ deberias poder ver el cambio en rollout y en argocd, ademas de que si hacer vari
 ```bash
 kubectl argo rollouts dashboard
 ```
+
+### 8. ingresar al dominio app-demo.local desde el navegador
+
+```bash
+minikube ip -p argo-lab
+```
+
+```bash
+echo "192.168.76.2 app-demo.local" | sudo tee -a /etc/hosts
+```
+
+## 9. Ejecutar el rollout canary
+
+Se debe modificar en el file rollout.yaml en la linea image: del nginx el 1.19 por 1.21.
+
+Luego de modificar esa linea y pushear el cambio a tu repositorio deberia ver que dando varios F5 al navegador, cambia de color la welcome de nginx.
 
 ### Aclaraciones
 
