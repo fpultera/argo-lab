@@ -4,8 +4,8 @@ namespace: app-demo
 replicas: 5
 
 image:
-  repository: nginx
-  tag: "1.19"
+  repository: fpultera/app-demo
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 # Labels que se usarán en todos los recursos
