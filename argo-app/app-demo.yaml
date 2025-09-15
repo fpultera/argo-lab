@@ -11,7 +11,7 @@ spec:
     path: demo-app
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo
+    namespace: app-demo
   syncPolicy:
     automated:
       prune: true
