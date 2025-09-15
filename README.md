@@ -203,7 +203,7 @@ Luego de modificar esa linea y pushear el cambio a tu repositorio deberia ver qu
 
 # ArgoCD y Argo Rollouts: Quién hace qué
 
-Este documento explica las responsabilidades de ArgoCD y Argo Rollouts en un despliegue canary.
+Este apartado explica las responsabilidades de ArgoCD y Argo Rollouts en un despliegue canary.
 
 ## 🔹 1. Qué hace ArgoCD
 

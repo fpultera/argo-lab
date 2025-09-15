@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "mi-app-chart.fullname" . }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+{{ toYaml .Values.labels | indent 6 }}
+  strategy:
+    canary:
+      canaryService: {{ .Values.service.canary.name }}
+      stableService: {{ .Values.service.stable.name }}
+      trafficRouting:
+        nginx:
+          stableIngress: {{ .Values.ingress.name }}
+      steps:
+{{ toYaml .Values.rollout.strategy.steps | indent 8 }}
+  template:
+    metadata:
+      labels:
+{{ toYaml .Values.labels | indent 8 }}
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
+      volumes:
+        - name: html-volume
+          configMap:
+            name: {{ .Values.configMap.name }}

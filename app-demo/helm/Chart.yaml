@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mi-app-chart
+description: Un Helm Chart para desplegar una aplicación web con Argo Rollouts.
+type: application
+version: 0.1.0
+appVersion: "1.19" # Versión de la app (nginx en este caso)

@@ -1,0 +1,33 @@
+# Service para el tráfico estable (stable)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.stable.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.stable.type }}
+  ports:
+    - port: {{ .Values.service.stable.port }}
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+{{ toYaml .Values.labels | indent 4 }}
+
+---
+
+# Service para el tráfico de la nueva versión (canary)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.canary.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.canary.type }}
+  ports:
+    - port: {{ .Values.service.canary.port }}
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+{{ toYaml .Values.labels | indent 4 }}

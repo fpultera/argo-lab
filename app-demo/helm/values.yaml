@@ -1,0 +1,65 @@
+# Settings generales de la aplicación
+nameOverride: app # Nombre base para los recursos
+namespace: app-demo
+replicas: 5
+
+image:
+  repository: nginx
+  tag: "1.19"
+  pullPolicy: IfNotPresent
+
+# Labels que se usarán en todos los recursos
+labels:
+  app: nginx
+
+# Definición de los Services para la estrategia canary
+service:
+  stable:
+    name: app-stable
+    type: ClusterIP
+    port: 80
+  canary:
+    name: app-canary
+    type: ClusterIP
+    port: 80
+
+# Configuración del Ingress
+ingress:
+  enabled: true
+  className: "nginx" # Asegúrate que coincida con tu Ingress Controller
+  name: app-ingress
+  host: mi-app.ejemplo.com
+  annotations:
+    # Estas anotaciones son cruciales para que Argo Rollouts controle el tráfico
+    # a través del Ingress Controller de Nginx.
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "0"
+
+# Estrategia y pasos del Rollout
+rollout:
+  strategy:
+    steps:
+      - setWeight: 20
+      - pause: { duration: 10s }
+      - setWeight: 50
+      - pause: { duration: 30s }
+      - setWeight: 100
+
+# ConfigMap que contiene el index.html
+configMap:
+  name: app-index-html
+  htmlContent: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Mi App con Helm & Rollouts</title>
+        <style>
+            body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        </style>
+    </head>
+    <body>
+        <h1>Hola desde Helm y Argo Rollouts</h1>
+        <p>Esta pagina se actualiza con una estrategia Canary.</p>
+        <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" alt="GitOps GIF">
+    </body>
+    </html>

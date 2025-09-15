@@ -1,7 +1,0 @@
-nameReference:
-- kind: Rollout
-  version: v1alpha1
-  group: argoproj.io
-  fieldSpecs:
-  - path: spec/template/spec/volumes/configMap/name
-    kind: ConfigMap

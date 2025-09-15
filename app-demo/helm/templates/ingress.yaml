@@ -1,0 +1,24 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                # El Ingress siempre apunta al servicio estable.
+                # Argo Rollouts se encarga de dividir el tráfico hacia el servicio canary.
+                name: {{ .Values.service.stable.name }}
+                port:
+                  number: {{ .Values.service.stable.port }}
+{{- end }}
