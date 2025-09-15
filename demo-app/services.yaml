@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-stable
-  namespace: demo
+  name: app-stable
+  namespace: app-demo
 spec:
   ports:
     - port: 80
       targetPort: 80
   selector:
-    app: nginx
+    app: app
     rollouts-pod-template-hash: stable
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-canary
-  namespace: demo
+  name: app-canary
+  namespace: app-demo
 spec:
   ports:
     - port: 80
       targetPort: 80
   selector:
-    app: nginx
+    app: app
     rollouts-pod-template-hash: canary

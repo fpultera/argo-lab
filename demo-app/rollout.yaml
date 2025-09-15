@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: nginx
-  namespace: demo
+  name: app
+  namespace: app-demo
   annotations:
     argocd.argoproj.io/sync-wave: "1"   # 👈 se aplica después del Ingress
 spec:
   replicas: 5
   selector:
     matchLabels:
-      app: nginx
+      app: app
   strategy:
     canary:
-      canaryService: nginx-canary
-      stableService: nginx-stable
+      canaryService: app-canary
+      stableService: app-stable
       trafficRouting:
         nginx:
           stableIngress: nginx-ingress   # 👈 Ingress que maneja el tráfico
@@ -26,10 +26,10 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx
+        app: app
     spec:
       containers:
-        - name: nginx
+        - name: app
           image: nginx:1.19
           ports:
             - containerPort: 80
