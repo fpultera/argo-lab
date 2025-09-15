@@ -9,7 +9,7 @@ spec:
   replicas: 5
   selector:
     matchLabels:
-      app: nginx
+      app: app
   strategy:
     canary:
       canaryService: app-canary
