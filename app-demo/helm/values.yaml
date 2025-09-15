@@ -28,7 +28,7 @@ ingress:
   enabled: true
   className: "nginx" # Asegúrate que coincida con tu Ingress Controller
   name: app-ingress
-  host: mi-app.ejemplo.com
+  host: app-demo.local
   annotations:
     # Estas anotaciones son cruciales para que Argo Rollouts controle el tráfico
     # a través del Ingress Controller de Nginx.

@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: 'https://github.com/fpultera/argo-lab.git'
-    path: '/app-demo/helm'
+    path: 'app-demo/helm'
     targetRevision: HEAD
     helm:
       valueFiles:
