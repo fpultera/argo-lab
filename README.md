@@ -30,7 +30,7 @@ kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
 
 ```bash
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -f https://raw.githubusercontent.com/fpultera/argo-lab/refs/heads/main/argo-app/argocd/install.yaml -n argocd
 ```
 
 ### Verificar pods:
