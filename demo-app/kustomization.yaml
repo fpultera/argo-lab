@@ -10,6 +10,8 @@ configMapGenerator:
 - name: app-index-html
   files:
   - index.html
+  options:
+    disableNameSuffixHash: true
 
 patches:
 - patch: |-
