@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: app
-  namespace: nginx
+  namespace: app-demo
   annotations:
     argocd.argoproj.io/sync-wave: "1"   # 👈 se aplica después del Ingress
 spec:
