@@ -10,7 +10,7 @@ image:
 
 # URL del servicio del que dependemos.
 # Por defecto, apunta al servicio interno de la app-demo.
-dependencyUrl: "http://app-test.app-demo.svc.cluster.local"
+dependencyUrl: "http://app-stable.app-demo.svc.cluster.local"
 
 labels:
   app: dependant
