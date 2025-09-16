@@ -1,0 +1,28 @@
+nameOverride: app-dependant
+namespace: app-demo
+replicas: 1
+
+image:
+  # DEBES CAMBIAR ESTO por la imagen que construiste y subiste
+  repository: fpultera/app-dependant
+  tag: "v1.0.0"
+  pullPolicy: IfNotPresent
+
+# URL del servicio del que dependemos.
+# Por defecto, apunta al servicio interno de la app-demo.
+dependencyUrl: "http://app-stable.app-demo.svc.cluster.local"
+
+labels:
+  app: dependant
+
+service:
+  name: app-dependant-svc
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+ingress:
+  enabled: true
+  className: nginx
+  name: app-dependant-ingress
+  host: app-dependant.local
