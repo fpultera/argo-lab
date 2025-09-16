@@ -5,7 +5,7 @@ replicas: 5
 
 image:
   repository: fpultera/app-demo
-  tag: "v1.0.0"
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 # Labels que se usarán en todos los recursos
@@ -30,7 +30,6 @@ ingress:
   name: app-ingress
   host: app-demo.local
   annotations:
-    # Estas anotaciones son cruciales para que Argo Rollouts controle el tráfico
     # # a través del Ingress Controller de Nginx.
     # nginx.ingress.kubernetes.io/canary: "true"
     # nginx.ingress.kubernetes.io/canary-weight: "0"
