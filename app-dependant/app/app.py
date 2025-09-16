@@ -19,15 +19,15 @@ def check_dependency():
         if response.status_code >= 200 and response.status_code < 300:
             return jsonify({
                 "status": "OK",
-                "message": "La aplicación dependiente funciona correctamente.",
-                "dependency_check": f"Conexión exitosa con {dependency_url}",
+                "message": "La aplicacion dependiente funciona correctamente.",
+                "dependency_check": f"Conexion exitosa con {dependency_url}",
                 "dependency_status_code": response.status_code
             }), 200
         else:
             # Si app-demo responde con un error
             return jsonify({
                 "status": "ERROR",
-                "message": "La aplicación dependiente funciona, pero la dependencia ha fallado.",
+                "message": "La aplicacion dependiente funciona, pero la dependencia ha fallado.",
                 "dependency_check": f"Error al conectar con {dependency_url}",
                 "dependency_status_code": response.status_code
             }), 503  # 503 Service Unavailable
