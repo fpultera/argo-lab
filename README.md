@@ -40,6 +40,14 @@ kubectl apply -f argo-app/argo-rollout/dashboard-install.yaml -n argo-rollouts
 kubectl get pods -n argo-rollouts
 ```
 
+### Para ingresar al dashboard de arg-rollout
+
+```bash
+echo "$(minikube ip -p argo-lab) argo-rollout.local" | sudo tee -a /etc/hosts
+```
+
+### Acceder en navegador: https://argo-rollout.local
+
 ## 4. Instalar ArgoCD en Minikube
 
 ```bash
@@ -52,6 +60,13 @@ kubectl apply -f argo-app/argocd/install.yaml -n argocd
 ```bash
 kubectl get pods -n argocd
 ```
+
+### Para ingresar al dashboard de ArgoCD
+
+```bash
+echo "$(minikube ip -p argo-lab) argocd.local" | sudo tee -a /etc/hosts
+```
+
 ### Acceder en navegador: https://argocd.local
 
 ### Usuario por defecto: admin
@@ -86,16 +101,14 @@ kubectl create namespace app-demo
 https://github.com/fpultera/argo-lab.git
 ```
 
-## 6. Configurar ArgoCD Application
+## 6. Instalar app-demo en ArgoCD como Application
 
 ```bash
-kubectl apply -f argo-app/nginx-demo-app.yaml -n argocd
+kubectl apply -f app-demo/argo-app/app-demo.yaml -f argocd
 ```
 
 ```bash
 Ingresar a la UI de argocd y ver que se alla sincronizado correctamente la app
-Ahora los svc los vas a ver syncronizarce constantemente.
-Para que ArgoCD no marque constantemente los Services nginx-canary y nginx-stable como OutOfSync (porque Argo Rollouts modifica dinámicamente los selector), hay que editar el ConfigMap argocd-cm e indicarle que ignore esas diferencias.
 ```
 
 ### 6a. Activar UI de argo-rollout en el objeto rollout de las apps de argocd
@@ -108,13 +121,6 @@ kubectl apply -f argo-app/argocd/deployment-server.yaml -n argocd
 
 ```bash
 kubectl rollout restart deployment argocd-repo-server -n argocd
-```
-
-### 6c. Verificar
-
-```bash
-Hacé un resync en la app nginx-demo desde ArgoCD.
-Ahora los Services deberían mantenerse en Synced aunque Rollouts cambie los selectors.
 ```
 
 💡 Nota:
