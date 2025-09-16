@@ -1,5 +1,5 @@
 nameOverride: app-dependant
-namespace: app-demo
+namespace: app-dependant
 replicas: 1
 
 image:
