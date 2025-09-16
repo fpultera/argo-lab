@@ -5,7 +5,7 @@ replicas: 1
 image:
   # DEBES CAMBIAR ESTO por la imagen que construiste y subiste
   repository: fpultera/app-dependant
-  tag: "v1.0.1"
+  tag: "v1.0.2"
   pullPolicy: IfNotPresent
 
 # URL del servicio del que dependemos.
