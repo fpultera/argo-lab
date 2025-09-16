@@ -5,7 +5,7 @@ replicas: 5
 
 image:
   repository: fpultera/app-demo
-  tag: "v1.0.0"
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 # Labels que se usarán en todos los recursos
