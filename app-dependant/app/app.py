@@ -12,10 +12,10 @@ dependency_url = os.environ.get('DEPENDENCY_URL', 'http://app-stable.app-demo.sv
 @app.route('/')
 def check_dependency():
     try:
-        # Hacemos una petición GET a la app-demo
+        # Hacemos una peticion GET a la app-demo
         response = requests.get(dependency_url, timeout=5)
 
-        # Verificamos que la respuesta sea exitosa (código 2xx)
+        # Verificamos que la respuesta sea exitosa (codigo 2xx)
         if response.status_code >= 200 and response.status_code < 300:
             return jsonify({
                 "status": "OK",
@@ -36,7 +36,7 @@ def check_dependency():
         # Si no se puede conectar con app-demo
         return jsonify({
             "status": "ERROR",
-            "message": "La aplicación dependiente funciona, pero la dependencia es inalcanzable.",
+            "message": "La aplicacion dependiente funciona, pero la dependencia es inalcanzable.",
             "dependency_check": f"No se pudo resolver o conectar con {dependency_url}",
             "error_details": str(e)
         }), 503 # 503 Service Unavailable
