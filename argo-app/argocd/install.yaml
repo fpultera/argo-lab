@@ -26807,12 +26807,9 @@ metadata:
   name: argocd-server-ingress
   namespace: argocd
   annotations:
-    # La anotación "kubernetes.io/ingress.class" se elimina de aquí.
-    # Mantenemos las otras anotaciones específicas de NGINX que puedas necesitar.
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
-  # ESTA ES LA FORMA MODERNA Y CORRECTA
   ingressClassName: "nginx"
   rules:
   - host: "argocd.local"

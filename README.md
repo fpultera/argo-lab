@@ -26,11 +26,25 @@ minikube addons enable ingress -p argo-lab
 kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
 ```
 
-## 3. Instalar ArgoCD en Minikube
+## 3. Instalar Argo Rollouts
+
+```bash
+kubectl create namespace argo-rollouts
+kubectl apply -f argo-app/argo-rollout/rollout-install.yaml -n argo-rollouts
+kubectl apply -f argo-app/argo-rollout/dashboard-install.yaml -n argo-rollouts
+```
+
+### Verificar pods
+
+```bash
+kubectl get pods -n argo-rollouts
+```
+
+## 4. Instalar ArgoCD en Minikube
 
 ```bash
 kubectl create namespace argocd
-kubectl apply -f https://raw.githubusercontent.com/fpultera/argo-lab/refs/heads/main/argo-app/argocd/install.yaml -n argocd
+kubectl apply -f argo-app/argocd/install.yaml -n argocd
 ```
 
 ### Verificar pods:
@@ -48,49 +62,6 @@ kubectl get pods -n argocd
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
-## 4. Instalar Argo Rollouts
-
-```bash
-kubectl create namespace argo-rollouts
-kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
-```
-
-## Dashboard
-
-```bash
-kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/dashboard-install.yaml
-```
-
-### Verificar pods
-
-```bash
-kubectl get pods -n argo-rollouts
-```
-
-### Check svc rollout
-
-```bash
-❯ k get svc -n argo-rollouts
-NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-argo-rollouts-dashboard   ClusterIP   10.104.163.216   <none>        3100/TCP   83s
-argo-rollouts-metrics     ClusterIP   10.100.67.78     <none>        8090/TCP   101s
-```
-
-### edito configmap rollout
-
-```bash
-kubectl edit configmap argocd-cm -n argocd
-```
-
-add:
-
-```bash
-data:
-  # ... otras configuraciones de Argo CD ...
-  url.rollouts_dashboard: http://argo-rollouts-dashboard.argo-rollouts.svc.cluster.local
-```
-
-
 ### Instalar CLI local
 
 ```bash
@@ -106,7 +77,7 @@ brew install argo-rollouts
 ## 5. Crear namespace para la demo
 
 ```bash
-kubectl create namespace demo
+kubectl create namespace app-demo
 ```
 
 ## Clonar Repo
@@ -127,25 +98,11 @@ Ahora los svc los vas a ver syncronizarce constantemente.
 Para que ArgoCD no marque constantemente los Services nginx-canary y nginx-stable como OutOfSync (porque Argo Rollouts modifica dinámicamente los selector), hay que editar el ConfigMap argocd-cm e indicarle que ignore esas diferencias.
 ```
 
-### 6a. Editar el ConfigMap
+### 6a. Activar UI de argo-rollout en el objeto rollout de las apps de argocd
 
 ```bash
-kubectl -n argocd edit configmap argocd-cm
+kubectl apply -f argo-app/argocd/deployment-server.yaml -n argocd
 ```
-
-Agregar la sección resource.customizations (si no existe, crearla):
-
-```bash
-data:
-  resource.customizations: |
-    Service:
-      ignoreDifferences: |
-        jsonPointers:
-          - /spec/selector/rollouts-pod-template-hash
-```
-
-Esto le dice a ArgoCD que ignore los cambios en rollouts-pod-template-hash, que es lo que Rollouts actualiza dinámicamente.
-
 
 ### 6b. Reiniciar el pod del repo-server para que tome la nueva configuración
 
@@ -166,30 +123,22 @@ No es necesario desactivar el sync automático de la app.
 
 Solo estás diciendo que ciertos campos específicos del Service pueden diferir del Git sin que ArgoCD los marque como OutOfSync.
 
-
 Ahora con solo hacer un cambio en el spec del rollout.yaml cambiando al version de la imagen de nginx, y pusheando el cambio
 
 deberias poder ver el cambio en rollout y en argocd, ademas de que si hacer varios F5 en al url vas a ver la diferencia
 
-## 7. Dashboard de argo-rollout
+
+### 7. ingresar al dominio app-demo.local desde el navegador
 
 ```bash
-kubectl argo rollouts dashboard
-```
-
-### 8. ingresar al dominio app-demo.local desde el navegador
-
-```bash
-minikube ip -p argo-lab
-```
-
-```bash
-echo "192.168.76.2 app-demo.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip -p argo-lab) argo-rollout.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip -p argo-lab) argocd.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip -p argo-lab) app-demo.local" | sudo tee -a /etc/hosts
 ```
 
 ## 9. Ejecutar el rollout canary
 
-Se debe modificar en el file rollout.yaml en la linea image: del nginx el 1.19 por 1.21.
+Se debe modificar en el file app-demo/helm/values.yaml en la linea 8, tag: cambiar latest por v1.0.0
 
 Luego de modificar esa linea y pushear el cambio a tu repositorio deberia ver que dando varios F5 al navegador, cambia de color la welcome de nginx.
 
